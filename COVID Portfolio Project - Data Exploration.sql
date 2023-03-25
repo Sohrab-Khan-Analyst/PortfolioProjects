@@ -10,6 +10,7 @@ FROM PortfolioProject..CovidDeaths
 WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 ORDER BY 3,4
 
+--------------------------------------------------------------------------------------------------------------------------
 
 -- Select Data that we are going to be starting with:
 
@@ -18,6 +19,7 @@ FROM PortfolioProject..CovidDeaths
 WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 ORDER BY 1,2
 
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 1) Total Cases vs Total Deaths -- Shows likelihood of dying if you contract covid in your country:
 
@@ -27,6 +29,7 @@ WHERE location LIKE '%india%'
 AND continent IS NOT NULL
 ORDER BY 1,2
 
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 2) Total Cases vs Population -- Shows what percentage of population infected with Covid:
 
@@ -35,6 +38,7 @@ FROM PortfolioProject..CovidDeaths
 --WHERE location like '%india%'
 order by 1,2
 
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 3) Countries with the Highest Infection Rate compared to Population:
 
@@ -44,6 +48,7 @@ FROM PortfolioProject..CovidDeaths
 GROUP BY Location, Population
 ORDER BY PercentPopulationInfected DESC
 
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 4) Countries with Highest Death Count per Population:
 
@@ -54,7 +59,7 @@ WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 GROUP BY Location
 ORDER BY TotalDeathCount DESC
 
-
+--------------------------------------------------------------------------------------------------------------------------
 
 -- BREAKING THINGS DOWN BY CONTINENT 
 
@@ -67,7 +72,7 @@ WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 GROUP BY continent
 ORDER BY TotalDeathCount DESC
 
-
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 6) GLOBAL NUMBERS
 
@@ -78,7 +83,7 @@ WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 --GROUP BY date
 ORDER BY 1,2
 
-
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 7) Total Population vs Vaccinations -- Shows Percentage of Population that has recieved at least one Covid Vaccine:
 
@@ -92,8 +97,10 @@ JOIN PortfolioProject..CovidVaccinations vac
 WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 ORDER BY 2,3
 
+--------------------------------------------------------------------------------------------------------------------------
 
--- 8) Using CTE to perform Calculation on Partition By in previous query
+-- 8) Using CTE to perform Calculation on Partition By in previous query:
+
 
 WITH PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
 AS
@@ -111,19 +118,20 @@ WHERE dea.continent IS NOT NULL AND dea.location IS NOT NULL
 SELECT *, (RollingPeopleVaccinated/Population)*100
 FROM PopvsVac
 
+--------------------------------------------------------------------------------------------------------------------------
 
+-- 9) Using Temp Table to perform Calculation on Partition By in previous query:
 
--- 9) Using Temp Table to perform Calculation on Partition By in previous query
 
 DROP Table if exists #PercentPopulationVaccinated
 CREATE TABLE #PercentPopulationVaccinated
 (
-Continent nvarchar(255),
-Location nvarchar(255),
-Date datetime,
-Population numeric,
-New_vaccinations numeric,
-RollingPeopleVaccinated numeric
+	Continent nvarchar(255),
+	Location nvarchar(255),
+	Date datetime,
+	Population numeric,
+	New_vaccinations numeric,
+	RollingPeopleVaccinated numeric
 )
 
 INSERT INTO #PercentPopulationVaccinated
@@ -140,7 +148,7 @@ JOIN PortfolioProject..CovidVaccinations vac
 SELECT *, (RollingPeopleVaccinated/Population)*100
 FROM #PercentPopulationVaccinated
 
-
+--------------------------------------------------------------------------------------------------------------------------
 
 -- 10) Creating View to store data for later visualizations
 
