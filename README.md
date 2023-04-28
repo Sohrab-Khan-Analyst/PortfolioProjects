@@ -1,5 +1,5 @@
 # PortfolioProjects
-Data Analyst Portfolio Projects
+This repository contains all the SQL- Portfolio Project
 
 Skills used - SQL Server 2019 | Power BI Desktop | Python - Numpy & Pandas | Tableau | MS Excel
 
