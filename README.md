@@ -1,4 +1,4 @@
-# PortfolioProjects
+# SQL - Projects
 This repository contains all the SQL- Portfolio Project
 
 <font size=6><b>Skills used:</b> <i> SQL Server 2019 | Power BI Desktop | Python - Numpy & Pandas | Tableau | MS Excel </i>
